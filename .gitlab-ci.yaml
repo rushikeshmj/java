@@ -1,0 +1,104 @@
+stages:
+  - checkout
+  - test
+  - code-coverage
+  - sca
+  - build
+  - package
+  - configure-aws
+  - ecr-login
+  - docker-build
+  - scan
+  - push
+
+variables:
+  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+  AWS_DEFAULT_REGION: "us-east-1"
+  ECR_REPOSITORY: "your-ecr-repository"
+  IMAGE_TAG: "latest"
+
+checkout:
+  stage: checkout
+  script:
+    - echo "Checking out code..."
+  tags:
+    - self-hosted
+
+unit_test:
+  stage: test
+  script:
+    - mvn test
+  tags:
+    - self-hosted
+
+code_coverage:
+  stage: code-coverage
+  script:
+    - mvn jacoco:report
+  artifacts:
+    paths:
+      - target/site/jacoco/index.html
+  tags:
+    - self-hosted
+
+# sca:
+#   stage: sca
+#   script:
+#     - mvn sonar:sonar -Dsonar.projectKey=your_project_key -Dsonar.host.url=http://your-sonarqube-server -Dsonar.login=your_sonarqube_token
+#   tags:
+#     - self-hosted
+
+# build:
+#   stage: build
+#   script:
+#     - mvn clean install
+#   tags:
+#     - self-hosted
+
+# package:
+#   stage: package
+#   script:
+#     - mvn package
+#   artifacts:
+#     paths:
+#       - target/your-application.jar
+#   tags:
+#     - self-hosted
+
+# configure_aws:
+#   stage: configure-aws
+#   script:
+#     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+#     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+#     - aws configure set default.region $AWS_DEFAULT_REGION
+#   tags:
+#     - self-hosted
+
+# ecr_login:
+#   stage: ecr-login
+#   script:
+#     - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+#   tags:
+#     - self-hosted
+
+# docker_build:
+#   stage: docker-build
+#   script:
+#     - docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
+#   tags:
+#     - self-hosted
+
+# scan_image:
+#   stage: scan
+#   script:
+#     - trivy image $ECR_REPOSITORY:$IMAGE_TAG
+#   tags:
+#     - self-hosted
+
+# push_to_ecr:
+#   stage: push
+#   script:
+#     - docker push $ECR_REPOSITORY:$IMAGE_TAG
+#   tags:
+#     - self-hosted
