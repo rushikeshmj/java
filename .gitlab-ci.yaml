@@ -45,7 +45,7 @@ code_coverage:
 # sca:
 #   stage: sca
 #   script:
-#     - mvn sonar:sonar -Dsonar.projectKey=your_project_key -Dsonar.host.url=http://your-sonarqube-server -Dsonar.login=your_sonarqube_token
+#     - mvn sonar:sonar -Dsonar.projectKey=your_project_key -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONARQUBE_TOKEN
 #   tags:
 #     - self-hosted
 
