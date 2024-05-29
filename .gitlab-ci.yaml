@@ -25,22 +25,31 @@ checkout:
   tags:
     - self-hosted
 
-unit_test:
-  stage: test
+# CI STEPS: 2.unit testing
+#test:
+unittest:
+  stage: unittest
+  image: maven:3.8.5-openjdk-17
+  #when: manual
+  allow_failure: true
+  tags:
+    - myrunner
+
   script:
+    - echo "Executing SpringBoot scenarios with maven"
     - mvn test
   tags:
     - self-hosted
 
-code_coverage:
-  stage: code-coverage
-  script:
-    - mvn jacoco:report
-  artifacts:
-    paths:
-      - target/site/jacoco/index.html
-  tags:
-    - self-hosted
+# code_coverage:
+#   stage: code-coverage
+#   script:
+#     - mvn jacoco:report
+#   artifacts:
+#     paths:
+#       - target/site/jacoco/index.html
+#   tags:
+#     - self-hosted
 
 # sca:
 #   stage: sca
