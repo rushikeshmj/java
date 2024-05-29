@@ -14,9 +14,9 @@ stages:
 variables:
   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-  AWS_DEFAULT_REGION: "us-east-1"
-  ECR_REPOSITORY: "your-ecr-repository"
-  IMAGE_TAG: "latest"
+  AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
+  ECR_REPOSITORY: "$ECR_REPOSITORY"
+  IMAGE_TAG: "$IMAGE_TAG"
 
 checkout:
   stage: checkout
